@@ -3,19 +3,15 @@ version: "3.9"
 services:
 
   db:
-    platform: linux/amd64
     image: postgres
     environment:
-      POSTGRES_DB: sportShopDb
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mohsen1160417237
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    networks:
-      - backend
 
   api:
-    platform: linux/amd64
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -24,9 +20,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: bridge
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mohsen1160417237

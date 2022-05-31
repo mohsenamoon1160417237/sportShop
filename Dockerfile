@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.8.13-alpine
+FROM python:3.7.13-slim-buster
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
