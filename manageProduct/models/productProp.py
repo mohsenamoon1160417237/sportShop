@@ -8,14 +8,12 @@ class ProductProp(models.Model):
     product = models.ForeignKey(DefineProduct,
                                 on_delete=models.CASCADE,
                                 related_name='props')
-    weight = models.DecimalField(decimal_places=2,
-                                 max_digits=20,
-                                 null=True,
-                                 blank=True)
-    size = models.DecimalField(decimal_places=2,
-                               max_digits=20,
-                               null=True,
-                               blank=True)
+    weight = models.CharField(max_length=20,
+                              null=True,
+                              blank=True)
+    size = models.CharField(max_length=20,
+                            null=True,
+                            blank=True)
     color = models.CharField(max_length=30,
                              null=True,
                              blank=True)

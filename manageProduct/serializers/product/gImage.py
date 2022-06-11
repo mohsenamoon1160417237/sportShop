@@ -9,6 +9,7 @@ from manageProduct.models.defineProduct import DefineProduct
 class ProdGalImageSz(serializers.ModelSerializer):
 
     product_id = serializers.IntegerField()
+    cat_id = serializers.IntegerField()
     next_id = serializers.SerializerMethodField()
     prev_id = serializers.SerializerMethodField()
 
@@ -17,10 +18,14 @@ class ProdGalImageSz(serializers.ModelSerializer):
         model = GalleryImage
         fields = ['id',
                   'product_id',
+                  'cat_id',
                   'image',
+                  'is_icon',
+                  'thumbnail',
                   'height',
                   'width',
-                  'size',
+                  'orig_size',
+                  'thumb_size',
                   'format',
                   'next_id',
                   'prev_id']
@@ -57,7 +62,7 @@ class ProdGalImageSz(serializers.ModelSerializer):
 
         img.height = img.image.height
         img.width = img.image.width
-        img.size = img.image.size
+        img.orig_size = img.image.size
         img.format = img.image.url.split(".")[1]
         img.save()
 

@@ -5,10 +5,12 @@ from manageProduct.models.defineProduct import DefineProduct
 from manageProduct.models.productCategory import ProductCategory
 from manageProduct.models.productAttr import ProductAttr
 from manageProduct.models.productProp import ProductProp
+from manageProduct.models.galleryImage import GalleryImage
 
 from manageProduct.serializers.category.category import ProductCatSz
 from manageProduct.serializers.product.attr import ProdAttrSz
 from manageProduct.serializers.product.prop import ProdPropSz
+from manageProduct.serializers.product.gImage import ProdGalImageSz
 
 
 class DefineProductSz(serializers.ModelSerializer):
@@ -19,6 +21,7 @@ class DefineProductSz(serializers.ModelSerializer):
     next_id = serializers.SerializerMethodField()
     prev_id = serializers.SerializerMethodField()
     props = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
 
     class Meta:
 
@@ -31,8 +34,8 @@ class DefineProductSz(serializers.ModelSerializer):
                   'attrs',
                   'next_id',
                   'prev_id',
-                  'props'
-                  ]
+                  'props',
+                  'images']
 
         read_only_fields = ['id',
                             'category',
@@ -41,6 +44,15 @@ class DefineProductSz(serializers.ModelSerializer):
                             'props'
                             ]
         write_only_fields = ['cat_id']
+
+    def get_images(self, obj):
+
+        imgs = GalleryImage.objects.filter(product=obj)
+        if not imgs.exists():
+            return None
+
+        sz = ProdGalImageSz(imgs, many=True)
+        return sz.data
 
     def get_category(self, obj):
 

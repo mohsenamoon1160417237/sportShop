@@ -4,15 +4,15 @@ from manageProduct.models.productCategory import ProductCategory
 
 from .parentCat import ParentCatSz
 from .childCat import ChildCatSz
+from .allCat import AllProdCatSz
 
 
-class ProductCatSz(serializers.ModelSerializer):
+class ProductCatSz(AllProdCatSz):
 
     parent = serializers.SerializerMethodField()
     childCats = serializers.SerializerMethodField()
     next_id = serializers.SerializerMethodField()
     prev_id = serializers.SerializerMethodField()
-
 
     class Meta:
 
@@ -23,7 +23,9 @@ class ProductCatSz(serializers.ModelSerializer):
                   'parent',
                   'childCats',
                   'next_id',
-                  'prev_id']
+                  'prev_id',
+                  'icon',
+                  'image']
 
         read_only_fields = ['id',
                             'parent',
@@ -34,12 +36,18 @@ class ProductCatSz(serializers.ModelSerializer):
     def get_parent(self, obj):
 
         parent = obj.parent
+        if parent is None:
+            return None
+
         serializer = ParentCatSz(parent)
         return serializer.data
 
     def get_childCats(self, obj):
 
         cats = ProductCategory.objects.filter(parent=obj)
+        if not cats.exists():
+            return None
+
         serializer = ChildCatSz(cats, many=True)
         return serializer.data
 
