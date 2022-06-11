@@ -11,4 +11,3 @@ class AllProdCatSz(serializers.ModelSerializer):
         fields = ['id',
                   'title',
                   'description']
-

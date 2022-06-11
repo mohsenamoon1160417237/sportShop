@@ -4,23 +4,35 @@ services:
 
   db:
     image: postgres
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mohsen1160417237
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPORT: ${DB_PORT}
+    restart: "on-failure"
 
   api:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/sportShop
-    ports:
-      - "8000:8000"
     depends_on:
       - db
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mohsen1160417237
+    volumes:
+      - media_volume:/sportShop/media
+    env_file:
+      - .env
+    restart: "on-failure"
+
+  nginx:
+    depends_on:
+      - api
+    build: ./nginx
+    ports:
+      - 1300:80
+    volumes:
+      - media_volume:/sportShop/media
+    restart: "on-failure"
+
+volumes:
+  postgres_data:
+  media_volume:
