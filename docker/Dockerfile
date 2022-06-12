@@ -10,16 +10,16 @@ ENV APIDIR=/sportShop
 RUN mkdir $APIDIR/media
 
 WORKDIR $APIDIR
-COPY . $APIDIR/
+COPY .. $APIDIR/
 
 RUN chown -R sport_shop_user:sport_shop_group $APIDIR
 
-ADD commands/entry_point.sh /docker-entrypoint.sh
-RUN chmod 755 /docker-entrypoint.sh
+ADD sh_files/api.sh /api-entrypoint.sh
+RUN chmod 755 /api-entrypoint.sh
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 USER sport_shop_user
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/api-entrypoint.sh"]

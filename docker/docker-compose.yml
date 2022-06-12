@@ -17,8 +17,7 @@ services:
     build: .
     depends_on:
       - db
-    volumes:
-      - media_volume:/sportShop/media
+      - redis
     env_file:
       - .env
     restart: "on-failure"
@@ -26,12 +25,25 @@ services:
   nginx:
     depends_on:
       - api
-    build: ./nginx
+    build: nginx
     ports:
       - 1300:80
     volumes:
-      - media_volume:/sportShop/media
+      - media_volume:${APIDIR}/media
     restart: "on-failure"
+
+  redis:
+    image: redis
+
+  celery:
+    build: celery
+    depends_on:
+      - redis
+
+  celery-beat:
+    build: celery-beat
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:
