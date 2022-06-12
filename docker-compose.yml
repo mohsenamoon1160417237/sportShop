@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
 
-  db:
+  postgres:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -11,15 +11,18 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGPORT: ${DB_PORT}
+    container_name: sport_shop_postgres
     restart: "on-failure"
 
   api:
     build: .
+    entrypoint: sh_files/api.sh
     depends_on:
-      - db
+      - postgres
       - redis
     env_file:
       - .env
+    container_name: sport_shop_api
     restart: "on-failure"
 
   nginx:
@@ -29,21 +32,35 @@ services:
     ports:
       - 1300:80
     volumes:
-      - media_volume:${APIDIR}/media
+      - media_volume:/sportShop/media
+    container_name: sport_shop_nginx
     restart: "on-failure"
 
   redis:
     image: redis
+    container_name: sport_shop_redis
 
   celery:
-    build: celery
+    build: .
+    command: celery -A sportShop worker -l info
     depends_on:
+      - postgres
       - redis
+    volumes:
+      - .:/sportShop
+    container_name: sport_shop_celery
+    restart: "on-failure"
 
   celery-beat:
-    build: celery-beat
+    build: .
+    command: celery -A sportShop beat -l info
     depends_on:
+      - postgres
       - redis
+    volumes:
+      - .:/sportShop
+    container_name: sport_shop_celery_beat
+    restart: "on-failure"
 
 volumes:
   postgres_data:

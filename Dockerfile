@@ -10,16 +10,19 @@ ENV APIDIR=/sportShop
 RUN mkdir $APIDIR/media
 
 WORKDIR $APIDIR
-COPY .. $APIDIR/
+COPY . $APIDIR/
 
 RUN chown -R sport_shop_user:sport_shop_group $APIDIR
 
-ADD sh_files/api.sh /api-entrypoint.sh
-RUN chmod 755 /api-entrypoint.sh
+#ADD sh_files/api.sh /api-entrypoint.sh
+#RUN chmod 755 /api-entrypoint.sh
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+#RUN chmod +x celery/sh_files/celery.sh
+#RUN chmod +x celery-beat/sh_files/celery-beat.sh
+
 USER sport_shop_user
 
-ENTRYPOINT ["/api-entrypoint.sh"]
+#ENTRYPOINT ["/api-entrypoint.sh"]
