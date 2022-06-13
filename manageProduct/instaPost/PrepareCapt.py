@@ -8,6 +8,10 @@ from django.db.models import Count, Q
 
 class PrepareCaptionImage:
 
+    def __init__(self, domain):
+
+        self.domain = domain
+
     def get_prod(self):
 
         an_prods = DefineProduct.objects.annotate(props_not_posted_count=Count('props', filter=Q(props__insta_posted=False)))
@@ -117,6 +121,10 @@ class PrepareCaptionImage:
 
         return [txt, props]
 
+    def create_img_url(self, url):
+
+        return self.domain + url
+
     def doPrepareImgUrls(self):
 
         prod = self.get_prod()
@@ -131,15 +139,14 @@ class PrepareCaptionImage:
                     "https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510_1280.jpg"]
         else:
             img_urls = []
-            if imgs.count() == 1:
-                img = imgs.first()
-                img_urls.append(img.url)
-                img_urls.append(img.url)
 
-            elif imgs.count() > 10:
+            if imgs.count() > 10:
+
                 imgs = imgs[:10]
 
             for img in imgs:
-                img_urls.append(img.url)
+
+                img_url = self.create_img_url(img.url)
+                img_urls.append(img_url)
 
             return img_urls

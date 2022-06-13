@@ -5,6 +5,7 @@ from .instaPost.getAccessToken import getLongLivedAccessToken
 from .instaPost.postCarousel import PostInstagramContent
 from .instaPost.PrepareCapt import PrepareCaptionImage
 
+import os
 
 logger = get_task_logger(__name__)
 
@@ -21,7 +22,7 @@ def postInsta():
 
     for x in range(3):
 
-        prepObj = PrepareCaptionImage()
+        prepObj = PrepareCaptionImage(os.environ.get("DOMAIN"))
         ls = prepObj.doPrepareCapt()
 
         img_urls = prepObj.doPrepareImgUrls()

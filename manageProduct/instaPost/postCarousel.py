@@ -2,8 +2,6 @@ import time
 from manageProduct.instaPost.define import getCreds, makeApiCall
 import json
 
-from manageProduct.instaPost.PrepareCapt import PrepareCaptionImage
-
 
 class PostInstagramContent:
 

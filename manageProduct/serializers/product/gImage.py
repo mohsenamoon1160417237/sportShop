@@ -9,7 +9,7 @@ from manageProduct.models.defineProduct import DefineProduct
 class ProdGalImageSz(serializers.ModelSerializer):
 
     product_id = serializers.IntegerField()
-    cat_id = serializers.IntegerField()
+    #cat_id = serializers.IntegerField()
     next_id = serializers.SerializerMethodField()
     prev_id = serializers.SerializerMethodField()
 
@@ -18,7 +18,6 @@ class ProdGalImageSz(serializers.ModelSerializer):
         model = GalleryImage
         fields = ['id',
                   'product_id',
-                  'cat_id',
                   'image',
                   'is_icon',
                   'thumbnail',

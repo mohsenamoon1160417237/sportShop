@@ -22,6 +22,8 @@ services:
       - redis
     env_file:
       - .env
+    volumes:
+      - sport_shop_volume:/sportShop
     container_name: sport_shop_api
     restart: "on-failure"
 
@@ -66,3 +68,4 @@ services:
 volumes:
   postgres_data:
   media_volume:
+  sport_shop_volume:
