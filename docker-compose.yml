@@ -11,8 +11,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGPORT: ${DB_PORT}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
     container_name: sport_shop_postgres
     restart: "on-failure"
 
