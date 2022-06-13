@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 
 
-RUN useradd -rm -d /home/sport_shop_user -s /bin/bash -g root
+RUN useradd -ms /bin/bash sport_shop_user
 USER sport_shop_user
 
 RUN mkdir /sportShop
