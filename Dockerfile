@@ -15,7 +15,7 @@ COPY . $APIDIR/
 RUN useradd -ms /bin/bash sport_shop_user
 RUN adduser sport_shop_user sport_shop_group
 
-RUN chown -R sport_shop_user:sport_shop_group celerybeat-schedule
+#RUN chown -R sport_shop_user:sport_shop_group celerybeat-schedule
 RUN chown -R sport_shop_user:sport_shop_group $APIDIR
 
 ADD sh_files/api.sh /api.sh
