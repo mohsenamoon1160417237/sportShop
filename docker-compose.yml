@@ -53,6 +53,7 @@ services:
       - redis
     volumes:
       - .:/sportShop
+    user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
     restart: "on-failure"
 
@@ -64,6 +65,7 @@ services:
       - redis
     volumes:
       - .:/sportShop
+    user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
     restart: "on-failure"
 
