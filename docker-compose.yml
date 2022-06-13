@@ -6,6 +6,8 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    command: postgres -c log_statement=all
+    user: root:root
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
