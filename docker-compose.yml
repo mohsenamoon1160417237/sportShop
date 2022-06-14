@@ -6,12 +6,16 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    command: postgres -c log_statement=all
+    user: ${POSTGRES_USER}
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGPORT: ${DB_PORT}
+    env_file:
+      - .env
+    ports:
+      - ${DB_PORT}:${DB_PORT}
     container_name: sport_shop_postgres
     restart: "on-failure"
 
@@ -24,9 +28,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres2
-      POSTGRES_PASSWORD: mohsen1160417237
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
@@ -61,9 +65,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres2
-      POSTGRES_PASSWORD: mohsen1160417237
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
     restart: always
@@ -79,9 +83,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres2
-      POSTGRES_PASSWORD: mohsen1160417237
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
     restart: always
