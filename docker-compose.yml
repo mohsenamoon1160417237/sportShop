@@ -25,7 +25,7 @@ services:
       - .env
     environment:
       POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres2
       POSTGRES_PASSWORD: mohsen1160417237
     volumes:
       - sport_shop_volume:/sportShop
@@ -62,7 +62,7 @@ services:
       - .env
     environment:
       POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres2
       POSTGRES_PASSWORD: mohsen1160417237
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
@@ -80,7 +80,7 @@ services:
       - .env
     environment:
       POSTGRES_DB: sportshop_postgres
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres2
       POSTGRES_PASSWORD: mohsen1160417237
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
