@@ -11,7 +11,7 @@ def set_db(is_docker: bool):
         return {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'sportshop_postgres',
-            'USER': 'sport_shop_pg_user',
+            'USER': 'postgres',
             'PASSWORD': 'mohsen1160417237',
             'HOST': 'postgres',
             'port': 5432
