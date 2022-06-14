@@ -3,7 +3,8 @@ version: "3.9"
 services:
 
   postgres:
-    build: postgres
+    image: postgres
+    user: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     command: postgres -c log_statement=all
@@ -23,6 +24,10 @@ services:
       - redis
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: sportshop_postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mohsen1160417237
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
@@ -54,6 +59,8 @@ services:
       - redis
     volumes:
       - .:/sportShop
+    env_file:
+      - .env
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
     restart: always
@@ -66,6 +73,8 @@ services:
       - redis
     volumes:
       - .:/sportShop
+    env_file:
+      - .env
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
     restart: always

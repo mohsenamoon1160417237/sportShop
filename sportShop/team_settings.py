@@ -10,11 +10,11 @@ def set_db(is_docker: bool):
 
         return {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'db',
-            'port': os.environ.get('DB_PORT')
+            'NAME': 'sportshop_postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'mohsen1160417237',
+            'HOST': 'postgres',
+            'port': 5432
         }
 
     return {
