@@ -1,0 +1,8 @@
+/*/migrations
+!/*/migrations/__init__.py
+
+/*.iml
+/*.idea
+/.gitignore
+/*.sqlite3
+/celerybeat-schedule

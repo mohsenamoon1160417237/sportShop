@@ -3,11 +3,10 @@ version: "3.9"
 services:
 
   postgres:
-    image: postgres
+    build: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     command: postgres -c log_statement=all
-    user: root:root
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -41,7 +40,9 @@ services:
     restart: "on-failure"
 
   redis:
-    image: redis
+    build: redis
+    volumes:
+      - redis_volume:/data
     container_name: sport_shop_redis
     restart: "on-failure"
 
@@ -55,7 +56,7 @@ services:
       - .:/sportShop
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
-    restart: "on-failure"
+    restart: always
 
   celery-beat:
     build: .
@@ -67,9 +68,10 @@ services:
       - .:/sportShop
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
-    restart: "on-failure"
+    restart: always
 
 volumes:
   postgres_data:
   media_volume:
   sport_shop_volume:
+  redis_volume:
