@@ -61,6 +61,10 @@ services:
       - .:/sportShop
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: sportshop_postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mohsen1160417237
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
     restart: always
@@ -75,6 +79,10 @@ services:
       - .:/sportShop
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: sportshop_postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mohsen1160417237
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
     restart: always
