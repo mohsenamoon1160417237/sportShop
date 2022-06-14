@@ -8,14 +8,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
     user: ${POSTGRES_USER}
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PGPORT: ${DB_PORT}
+      POSTGRES_DB: sportshop_postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mohsen1160417237
+      PGPORT: 5432
     env_file:
       - main.env
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - 5432:5432
     container_name: sport_shop_postgres
     restart: always
 
