@@ -13,11 +13,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGPORT: ${DB_PORT}
     env_file:
-      - .env
+      - main.env
     ports:
       - ${DB_PORT}:${DB_PORT}
     container_name: sport_shop_postgres
-    restart: "on-failure"
+    restart: always
 
   api:
     build: .
@@ -26,7 +26,7 @@ services:
       - postgres
       - redis
     env_file:
-      - .env
+      - main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -34,25 +34,38 @@ services:
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
-    restart: "on-failure"
+    restart: always
 
   nginx:
     depends_on:
       - api
     build: nginx
     ports:
-      - 1300:80
+      - 80:80
+      - 443:443
     volumes:
       - media_volume:/sportShop/media
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     container_name: sport_shop_nginx
-    restart: "on-failure"
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    container_name: sport_shop_certbot
+    env_file:
+      - certbot.env
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf:/etc/letsencrypt
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email ${EMAIL} -d ${DOMAIN} --agree-tos
 
   redis:
     build: redis
     volumes:
       - redis_volume:/data
     container_name: sport_shop_redis
-    restart: "on-failure"
+    restart: always
 
   celery:
     build: .
@@ -63,7 +76,7 @@ services:
     volumes:
       - .:/sportShop
     env_file:
-      - .env
+      - main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -81,7 +94,7 @@ services:
     volumes:
       - .:/sportShop
     env_file:
-      - .env
+      - main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
