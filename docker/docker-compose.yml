@@ -73,7 +73,7 @@ services:
     restart: always
 
   celery:
-    build: .
+    build: ..
     entrypoint: /celery.sh
     depends_on:
       - postgres
@@ -91,7 +91,7 @@ services:
     restart: always
 
   celery-beat:
-    build: .
+    build: ..
     entrypoint: /celery-beat.sh
     depends_on:
       - postgres
