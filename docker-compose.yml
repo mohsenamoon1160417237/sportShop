@@ -45,8 +45,8 @@ services:
       - 443:443
     volumes:
       - media_volume:/sportshop/media
-      - nginx_access_log_volume:/var/log/nginx/access.log
-      - nginx_error_log_volume:/var/log/nginx/error.log
+      - nginx_log_volume:/var/log/nginx
+      - nginx_conf:/etc/nginx/conf.d
       #- ./certbot/conf:/etc/letsencrypt
      # - ./certbot/www:/var/www/certbot
     container_name: sport_shop_nginx
@@ -112,5 +112,5 @@ volumes:
   media_volume:
   sport_shop_volume:
   redis_volume:
-  nginx_access_log_volume:
-  nginx_error_log_volume:
+  nginx_log_volume:
+  nginx_conf:
