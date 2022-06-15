@@ -13,20 +13,20 @@ services:
       POSTGRES_PASSWORD: mohsen1160417237
       PGPORT: 5432
     env_file:
-      - main.env
+      - env/main.env
     ports:
       - 5432:5432
     container_name: sport_shop_postgres
     restart: always
 
   api:
-    build: .
+    build: ..
     entrypoint: /api.sh
     depends_on:
       - postgres
       - redis
     env_file:
-      - main.env
+      - env/main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -57,7 +57,7 @@ services:
     image: certbot/certbot
     container_name: sport_shop_certbot
     env_file:
-      - certbot.env
+      - env/certbot.env
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf:/etc/letsencrypt
@@ -79,9 +79,9 @@ services:
       - postgres
       - redis
     volumes:
-      - .:/sportShop
+      - sport_shop_volume:/sportShop
     env_file:
-      - main.env
+      - env/main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -97,9 +97,9 @@ services:
       - postgres
       - redis
     volumes:
-      - .:/sportShop
+      - sport_shop_volume:/sportShop
     env_file:
-      - main.env
+      - env/main.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
