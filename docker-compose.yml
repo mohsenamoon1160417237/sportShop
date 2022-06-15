@@ -33,6 +33,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - sport_shop_volume:/sportShop
+      - media_volume:/sportShop/media
     container_name: sport_shop_api
     restart: always
 
@@ -44,7 +45,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - media_volume:/sportshop/media
+      - media_volume:/sportShop/media
       - nginx_log_volume:/var/log/nginx
       - nginx_conf:/etc/nginx/conf.d
       #- ./certbot/conf:/etc/letsencrypt
