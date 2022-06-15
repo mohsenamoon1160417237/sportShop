@@ -20,7 +20,7 @@ services:
     restart: always
 
   api:
-    build: .
+    build: ..
     entrypoint: /api.sh
     depends_on:
       - postgres
