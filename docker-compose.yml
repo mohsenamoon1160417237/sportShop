@@ -112,3 +112,5 @@ volumes:
   media_volume:
   sport_shop_volume:
   redis_volume:
+  nginx_access_log_volume:
+  nginx_error_log_volume:
