@@ -146,7 +146,7 @@ class PrepareCaptionImage:
 
             for img in imgs:
 
-                img_url = self.create_img_url(img.url)
+                img_url = self.create_img_url(img.image.url)
                 img_urls.append(img_url)
 
             return img_urls
