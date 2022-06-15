@@ -6,3 +6,4 @@
 /.gitignore
 /*.sqlite3
 /celerybeat-schedule
+/media
