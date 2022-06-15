@@ -22,7 +22,7 @@ def postInsta():
 
     for x in range(3):
 
-        prepObj = PrepareCaptionImage(os.environ.get("DOMAIN"))
+        prepObj = PrepareCaptionImage("http://quicksmart.pro")
         ls = prepObj.doPrepareCapt()
 
         img_urls = prepObj.doPrepareImgUrls()
