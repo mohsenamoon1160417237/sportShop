@@ -33,8 +33,8 @@ app.conf.beat_schedule = {
         # Task Name (Name Specified in Decorator)
         'task': 'manageProduct.tasks.postInsta',
         # Schedule
-        #'schedule': crontab(minute='*/3'),
-        'schedule': crontab(minute=0,
-                            hour='5'),
+        'schedule': crontab(minute='*/1'),
+        #'schedule': crontab(minute=0,
+        #                    hour='5'),
     }
 }

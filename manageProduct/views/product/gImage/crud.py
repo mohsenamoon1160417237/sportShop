@@ -22,7 +22,6 @@ class HandleProdGalImage(GenericAPIView):
     def get(self, request, img_id):
 
         img = get_object_or_404(GalleryImage, id=img_id)
-        print(img.image.url)
         sz = ProdGalImageSz(img)
         return Response({'status': 'get product image',
                          'image': sz.data})
