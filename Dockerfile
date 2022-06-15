@@ -21,12 +21,6 @@ RUN chown -R sport_shop_user:sport_shop_group $APIDIR
 ADD docker/sh_files/api.sh /api.sh
 RUN chmod +x /api.sh
 
-ADD docker/celery/sh_files/celery.sh /celery.sh
-RUN chmod +x /celery.sh
-
-ADD docker/celery-beat/sh_files/celery-beat.sh /celery-beat.sh
-RUN chmod +x /celery-beat.sh
-
 #RUN sysctl vm.overcommit_memory=1
 
 RUN pip install --upgrade pip

@@ -33,7 +33,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - sport_shop_volume:/sportShop
-      - media_volume:/sportShop/media
     container_name: sport_shop_api
     restart: always
 
@@ -45,7 +44,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - media_volume:/sportShop/media
+      - sport_shop_volume:/sportShop
       - nginx_log_volume:/var/log/nginx
       - nginx_conf:/etc/nginx/conf.d
       #- ./certbot/conf:/etc/letsencrypt
@@ -73,7 +72,7 @@ services:
     restart: always
 
   celery:
-    build: ..
+    build: celery
     entrypoint: /celery.sh
     depends_on:
       - postgres
@@ -91,7 +90,7 @@ services:
     restart: always
 
   celery-beat:
-    build: ..
+    build: celery-beat
     entrypoint: /celery-beat.sh
     depends_on:
       - postgres
@@ -110,7 +109,6 @@ services:
 
 volumes:
   postgres_data:
-  media_volume:
   sport_shop_volume:
   redis_volume:
   nginx_log_volume:
