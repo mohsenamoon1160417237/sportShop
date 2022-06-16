@@ -63,9 +63,10 @@ services:
     command: certonly --webroot -w /var/www/certbot --force-renewal --email ${EMAIL} -d ${DOMAIN} --agree-tos
 
   redis:
-    build: redis
+    image: redis
     volumes:
       - redis_volume:/data
+    user: redis:redis
     ports:
       - 6379:6379
     container_name: sport_shop_redis
