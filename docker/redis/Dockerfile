@@ -19,4 +19,4 @@ FROM redis
 #ADD sh_files/redis.sh /redis.sh
 #RUN chmod +x /redis.sh
 
-RUN RUN sysctl vm.overcommit_memory=1
+RUN sysctl vm.overcommit_memory=1
