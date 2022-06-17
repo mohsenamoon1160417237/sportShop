@@ -24,7 +24,7 @@ services:
     entrypoint: /api.sh
     depends_on:
       - postgres
-      - redis
+      - rabbitmq
     env_file:
       - env/main.env
     environment:
@@ -87,7 +87,7 @@ services:
     entrypoint: /celery.sh
     depends_on:
       - postgres
-      - redis
+      - rabbitmq
     volumes:
       - sport_shop_volume:/sportShop
     env_file:
@@ -105,7 +105,7 @@ services:
     entrypoint: /celery-beat.sh
     depends_on:
       - postgres
-      - redis
+      - rabbitmq
     volumes:
       - sport_shop_volume:/sportShop
     env_file:
