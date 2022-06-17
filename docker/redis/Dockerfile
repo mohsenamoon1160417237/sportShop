@@ -1,6 +1,6 @@
 FROM redis
 
-WORKDIR /redis
+#WORKDIR /redis
 
 #RUN addgroup --group sport_shop_group
 
@@ -12,10 +12,11 @@ WORKDIR /redis
 
 #USER sport_shop_user
 
-COPY redis.conf /usr/local/etc/redis/redis.conf
+#COPY redis.conf /usr/local/etc/redis/redis.conf
 
-RUN chmod +x /usr/local/etc/redis/redis.conf
+#RUN chmod +x /usr/local/etc/redis/redis.conf
 
-ADD sh_files/redis.sh /redis.sh
-RUN chmod +x /redis.sh
+#ADD sh_files/redis.sh /redis.sh
+#RUN chmod +x /redis.sh
 
+RUN RUN sysctl vm.overcommit_memory=1
