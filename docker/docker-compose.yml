@@ -62,20 +62,11 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     command: certonly --webroot -w /var/www/certbot --force-renewal --email ${EMAIL} -d ${DOMAIN} --agree-tos
 
-  redis-overcommit:
-    build: https://github.com/bkuhl/redis-overcommit-on-host.git
-    restart: 'no'
-    privileged: true
-    volumes:
-      - /proc/sys/vm:/mnt/vm
-
   redis:
     image: redis
     volumes:
       - redis_volume:/data
     user: redis:redis
-    depends_on:
-      - redis-overcommit
     ports:
       - 6379:6379
     container_name: sport_shop_redis
