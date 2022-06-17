@@ -70,8 +70,6 @@ services:
     #entrypoint: /redis.sh
     ports:
       - 6379:6379
-    depends_on:
-      - redis-overcommit
     container_name: sport_shop_redis
     restart: always
 
