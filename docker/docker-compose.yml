@@ -47,8 +47,8 @@ services:
       - sport_shop_volume:/sportShop
       - nginx_log_volume:/var/log/nginx
       - nginx_conf:/etc/nginx/conf.d
-      #- ./certbot/conf:/etc/letsencrypt
-     # - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     container_name: sport_shop_nginx
     restart: always
 
@@ -64,23 +64,13 @@ services:
 
   rabbitmq:
     image: rabbitmq
+    container_name: sport_shop_rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
     restart: always
-
-  #redis:
-   # build: redis
-    #volumes:
-     # - redis_volume:/data
-    #user: redis:redis
-    #entrypoint: /redis.sh
-    #ports:
-    #  - 6379:6379
-    #container_name: sport_shop_redis
-    #restart: always
 
   celery:
     build: ..
@@ -121,7 +111,6 @@ services:
 volumes:
   postgres_data:
   sport_shop_volume:
-  #redis_volume:
   nginx_log_volume:
   nginx_conf:
   rabbitmq_data:
