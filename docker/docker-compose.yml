@@ -88,6 +88,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
+    networks:
+      - open_vpn_network
     restart: always
 
   celery-beat:
@@ -114,3 +116,7 @@ volumes:
   nginx_log_volume:
   nginx_conf:
   rabbitmq_data:
+
+networks:
+  open_vpn_network:
+    external: true
