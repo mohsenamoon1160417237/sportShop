@@ -10,6 +10,8 @@ services:
       - NET_ADMIN
     ports:
       - 8181:8181
+      - 5672:5672
+      - 15672:15672
     devices:
       - /dev/net/tun
     volumes:
@@ -88,9 +90,7 @@ services:
     container_name: sport_shop_rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+    network_mode: service:open_vpn_client_api
     restart: always
 
   celery:
@@ -131,6 +131,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
+    network_mode: service:open_vpn_client_api
     restart: always
 
 volumes:
