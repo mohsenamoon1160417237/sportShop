@@ -121,6 +121,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
+    networks:
+      - open_vpn_network_api
     network_mode: service:open_vpn_client_api
     restart: always
 
