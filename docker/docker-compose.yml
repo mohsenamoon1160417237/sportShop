@@ -70,6 +70,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - sportshopbot_open_vpn_network
     restart: always
 
   celery:
@@ -108,6 +110,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
+    networks:
+      - sportshopbot_open_vpn_network
     restart: always
 
 volumes:
