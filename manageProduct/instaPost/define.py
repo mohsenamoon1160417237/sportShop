@@ -8,7 +8,7 @@ def getCreds():
 
     insta_storages = InstaStorage.objects.all()
     if not insta_storages.exists():
-        insta_storage = InstaStorage.objects.create(access_token="EAAVMRaZBDZBOMBABXXQZA5zJumiCArm5xB6CHhFsOBQI08SMhlFkbarJ2eftxDU21SUAJNSaRQN4Nr86lXA9uhqirxmj9qjcWj9BxYhN4ZBZA01Y3eTxg1tZC89XStLxsDG6NcpOCPbB6VsPZClCqUSm3azZCrXAk2XeqI2LZCbPnZA9B7iMUfozll9nbpZCKyt6ysdmdoXB1ZAx6bfsNzsbZA2TvjFL4NqoJMtkZD",
+        insta_storage = InstaStorage.objects.create(access_token="EAAVMRaZBDZBOMBAFWlIXsRd50E8fX6XxNBm6ZCs0sDGjZB3fCoFxqBawT8uMzhZC7RBJ4wCn5PJ5wD3wZAv96fh2Ak8odNQqJZCaM935HwtGhv2iMQ7wZAeU7wjfuPc46kf5viTHWcaX5FlvCUQHT8VsQkiFT2eg75og2q1Y1EyWoNnP49AZCt8Lu",
                                                     account_id="17841450132501655",
                                                     app_id="1491237064669411",
                                                     app_secret="7835a3086e0dd14e2d8995255e4d26d0")
