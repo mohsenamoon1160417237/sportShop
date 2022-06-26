@@ -2,7 +2,24 @@ version: "3.9"
 
 services:
 
+  open_vpn_client_api:
+
+    image: ghcr.io/wfg/openvpn-client
+    container_name: openvpn-client-api
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8080:8080
+    devices:
+      - /dev/net/tun
+    volumes:
+      - ./vpn:/data/vpn
+    networks:
+      - open_vpn_network_api
+    restart: unless-stopped
+
   postgres:
+
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -17,11 +34,10 @@ services:
     ports:
       - 5432:5432
     container_name: sport_shop_postgres
-    networks:
-      - sportshopbot_open_vpn_network
     restart: always
 
   api:
+
     build: ..
     entrypoint: /api.sh
     depends_on:
@@ -36,11 +52,10 @@ services:
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
-    networks:
-      - sportshopbot_open_vpn_network
     restart: always
 
   nginx:
+
     depends_on:
       - api
     build: nginx
@@ -54,11 +69,10 @@ services:
      # - ./certbot/conf:/etc/letsencrypt
      # - ./certbot/www:/var/www/certbot
     container_name: sport_shop_nginx
-    networks:
-      - sportshopbot_open_vpn_network
     restart: always
 
   certbot:
+
     image: certbot/certbot
     container_name: sport_shop_certbot
     env_file:
@@ -66,11 +80,10 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf:/etc/letsencrypt
-    networks:
-      - sportshopbot_open_vpn_network
     command: certonly --webroot -w /var/www/certbot --force-renewal --email dramatic225@gmail.com -d quicksmart.pro --agree-tos
 
   rabbitmq:
+
     image: rabbitmq
     container_name: sport_shop_rabbitmq
     volumes:
@@ -78,14 +91,14 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    networks:
-      - sportshopbot_open_vpn_network
     restart: always
 
   celery:
+
     build: ..
     entrypoint: /celery.sh
     depends_on:
+      - open_vpn_client_api
       - postgres
       - rabbitmq
     volumes:
@@ -98,11 +111,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
-    networks:
-      - sportshopbot_open_vpn_network
+    network_mode: service:open_vpn_client_api
     restart: always
 
   celery-beat:
+
     build: ..
     entrypoint: /celery-beat.sh
     depends_on:
@@ -118,8 +131,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
-    networks:
-      - sportshopbot_open_vpn_network
     restart: always
 
 volumes:
@@ -130,5 +141,6 @@ volumes:
   rabbitmq_data:
 
 networks:
-  sportshopbot_open_vpn_network:
-    external: true
+  open_vpn_client_api:
+    driver: bridge
+    name: open_vpn_client_api
