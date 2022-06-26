@@ -36,6 +36,7 @@ services:
     ports:
       - 5432:5432
     container_name: sport_shop_postgres
+    network_mode: service:open_vpn_client_api
     restart: always
 
   api:
@@ -54,6 +55,7 @@ services:
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
+    network_mode: service:open_vpn_client_api
     restart: always
 
   nginx:
@@ -71,6 +73,7 @@ services:
      # - ./certbot/conf:/etc/letsencrypt
      # - ./certbot/www:/var/www/certbot
     container_name: sport_shop_nginx
+    network_mode: service:open_vpn_client_api
     restart: always
 
   certbot:
@@ -82,6 +85,7 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf:/etc/letsencrypt
+    network_mode: service:open_vpn_client_api
     command: certonly --webroot -w /var/www/certbot --force-renewal --email dramatic225@gmail.com -d quicksmart.pro --agree-tos
 
   rabbitmq:
