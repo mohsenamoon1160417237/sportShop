@@ -2,22 +2,6 @@ version: "3.9"
 
 services:
 
-  open_vpn_client_api:
-
-    image: ghcr.io/wfg/openvpn-client
-    container_name: openvpn-client-api
-    cap_add:
-      - NET_ADMIN
-    ports:
-      - 8181:8181
-    devices:
-      - /dev/net/tun
-    volumes:
-      - ./vpn:/data/vpn
-    networks:
-      - open_vpn_network_api
-    restart: unless-stopped
-
   postgres:
 
     image: postgres
@@ -34,8 +18,6 @@ services:
     ports:
       - 5432:5432
     container_name: sport_shop_postgres
-    networks:
-      - open_vpn_network_api
     restart: always
 
   api:
@@ -54,8 +36,6 @@ services:
     volumes:
       - sport_shop_volume:/sportShop
     container_name: sport_shop_api
-    networks:
-      - open_vpn_network_api
     restart: always
 
   nginx:
@@ -73,8 +53,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    networks:
-      - open_vpn_network_api
     restart: always
 
   certbot:
@@ -86,8 +64,6 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf:/etc/letsencrypt
-    networks:
-      - open_vpn_network_api
     command: certonly --webroot -w /var/www/certbot --force-renewal --email dramatic225@gmail.com -d quicksmart.pro --agree-tos
 
   rabbitmq:
@@ -96,8 +72,6 @@ services:
     container_name: sport_shop_rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-    networks:
-      - open_vpn_network_api
     ports:
       - 5672:5672
       - 15672:15672
@@ -108,7 +82,6 @@ services:
     build: ..
     entrypoint: /celery.sh
     depends_on:
-      - open_vpn_client_api
       - postgres
       - rabbitmq
     volumes:
@@ -121,9 +94,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
-    networks:
-      - open_vpn_network_api
-    network_mode: service:open_vpn_client_api
     restart: always
 
   celery-beat:
@@ -143,8 +113,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery_beat
-    networks:
-      - open_vpn_network_api
     restart: always
 
 volumes:
@@ -153,8 +121,3 @@ volumes:
   nginx_log_volume:
   nginx_conf:
   rabbitmq_data:
-
-networks:
-  open_vpn_network_api:
-    driver: bridge
-    name: open_vpn_network_api
