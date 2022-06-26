@@ -141,6 +141,6 @@ volumes:
   rabbitmq_data:
 
 networks:
-  open_vpn_client_api:
+  open_vpn_network_api:
     driver: bridge
-    name: open_vpn_client_api
+    name: open_vpn_network_api
