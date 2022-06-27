@@ -42,7 +42,7 @@ services:
     entrypoint: /api.sh
     depends_on:
       - postgres
-      - rabbitmq
+      - redis
     env_file:
       - env/main.env
     environment:
@@ -82,16 +82,25 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     command: certonly --webroot -w /var/www/certbot --force-renewal --email dramatic225@gmail.com -d quicksmart.pro --agree-tos
 
-  rabbitmq:
+  #rabbitmq:
 
-    image: rabbitmq
-    container_name: sport_shop_rabbitmq
+   # image: rabbitmq
+   # container_name: sport_shop_rabbitmq
+   # volumes:
+    #  - rabbitmq_data:/var/lib/rabbitmq
+    #ports:
+     # - 5672:5672
+     # - 15672:15672
+    #restart: always
+
+  redis:
+    image: redis
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+      - redis_volume:/data
+    user: redis:redis
     ports:
-      - 5672:5672
-      - 15672:15672
-    restart: always
+      - 6379:6379
+    container_name: sport_shop_redis
 
   celery:
 
@@ -99,7 +108,7 @@ services:
     entrypoint: /celery.sh
     depends_on:
       - postgres
-      - rabbitmq
+      - redis
     volumes:
       - sport_shop_volume:/sportShop
     env_file:
@@ -119,7 +128,7 @@ services:
     entrypoint: /celery-beat.sh
     depends_on:
       - postgres
-      - rabbitmq
+      - redis
     volumes:
       - sport_shop_volume:/sportShop
     env_file:
@@ -137,7 +146,8 @@ volumes:
   sport_shop_volume:
   nginx_log_volume:
   nginx_conf:
-  rabbitmq_data:
+  redis_volume:
+  #rabbitmq_data:
 
 networks:
   open_vpn_network_api:
