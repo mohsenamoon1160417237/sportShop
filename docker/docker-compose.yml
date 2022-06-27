@@ -2,6 +2,22 @@ version: "3.9"
 
 services:
 
+  open_vpn_client_api:
+
+    image: ghcr.io/wfg/openvpn-client
+    container_name: openvpn-client-api
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8080:8080
+    devices:
+      - /dev/net/tun
+    volumes:
+      - ./settings/vpn:/data/vpn
+    networks:
+      - open_vpn_network_api
+    restart: unless-stopped
+
   postgres:
 
     image: postgres
@@ -94,6 +110,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     user: sport_shop_user:sport_shop_group
     container_name: sport_shop_celery
+    network_mode: service:open_vpn_client_api
     restart: always
 
   celery-beat:
@@ -121,3 +138,8 @@ volumes:
   nginx_log_volume:
   nginx_conf:
   rabbitmq_data:
+
+networks:
+  open_vpn_network_api:
+    driver: bridge
+    name: open_vpn_network_api
