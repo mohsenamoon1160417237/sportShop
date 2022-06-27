@@ -13,7 +13,7 @@ services:
     devices:
       - /dev/net/tun
     volumes:
-      - ./settings/vpn:/data/vpn
+      - ./vpn:/data/vpn
     networks:
       - open_vpn_network_api
     restart: unless-stopped
