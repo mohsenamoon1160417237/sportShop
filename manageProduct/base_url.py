@@ -4,5 +4,5 @@ from .views.base import BaseView
 
 urlpatterns = [
 
-    path('/', BaseView.as_view())
+    path('', BaseView.as_view())
 ]
